@@ -3,9 +3,12 @@ const chalk = require('chalk')
 
 let reset = ()=>{
     try {
-        const value = [{
+        const value = [{id:1,
+        date:"",
+        details:{
+            amount:0,
+            notesDispensed:"{0:0}"}}]
 
-        }]
         const balance = {
             balance: 50000
         }

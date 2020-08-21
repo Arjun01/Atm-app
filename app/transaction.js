@@ -72,7 +72,6 @@ class Transaction extends Atm{
             let change = {};
             if(this.selected!=0 && this.selected < this.amount){
                 this.denomination.map(a => {
-                    console.log(this.selected);
                     if(a === this.selected){
                         change[a] = Math.floor(this.amount/a);
                         this.amount -= a*change[a];

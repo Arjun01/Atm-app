@@ -7,6 +7,11 @@ for that type: cd app
 
 Step 3: Now you can execute each and every command using current command prompt, since it uses yarn for that.
 
+Either use command: node index.js --help  // to see all the commands available
+
+OR
+Follow these commands below:
+
 a) to withdraw some amount from ATM:
     type: node index.js withdraw --amount enter_amount
     //The above command will execute for non-selected denomination since, no denomination was selected.
@@ -24,7 +29,7 @@ c) To check your current balance:
 d) To see all the previous transactions:
     type: node index.js list
 
-6)Since this program monitors the balance and if you wanna play more with it, but your balance is exhausted. 
+e)Since this program monitors the balance and if you wanna play more with it, but your balance is exhausted. 
     You can do it using reset command.
     type: node index.js reset 
     //This command deletes all your previous transactions and resets your balance to 50000 again.
