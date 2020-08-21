@@ -7,17 +7,29 @@ class Transaction extends Atm{
         super(limit, denomination);
         this.amount = amount;
         this.id = 0;
-         this.date =0;
+         this.date =new Date();
+         var dd = String(this.date.getDate()).padStart(2, '0');
+         var mm = String(this.date.getMonth() + 1).padStart(2, '0'); //January is 0!
+         var yyyy = this.date.getFullYear();
+         this.date =mm + '/' + dd + '/' + yyyy;
     }
     update = ()=>{
             console.log(`update function of transaction class ${this.amount}`);
-            const withdrawData = this.getMoney();
+           var amount = this.amount;
+            const withdrawData = JSON.stringify(this.getMoney());
             const transactions = loadTransactions();
-           
             this.id = transactions.length+1;
-            console.log(this.id);
-            // transactions.push(withdrawData);
-            //saveTransaction(transactions);
+           var data = JSON.stringify(withdrawData);
+            transactions.push({
+                id: this.id,
+                date: this.date,
+                details:{
+                    amount: amount,
+                    notesDispensed:withdrawData
+                }
+            });
+           
+            saveTransaction(transactions);
             
     }
      getMoney = () => {

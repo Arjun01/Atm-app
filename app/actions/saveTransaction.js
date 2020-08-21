@@ -1,8 +1,8 @@
 const fs = require('fs');
 
 let saveTransaction = (statement)=>{
-    const dataJson = JSON.stringify(statement);
-        console.log(dataJson);
+    const dataJSON = JSON.stringify(statement);
+    fs.writeFileSync('./data/transactions-json.json', dataJSON);
 
 }
 module.exports = saveTransaction;
