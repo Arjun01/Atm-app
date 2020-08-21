@@ -26,7 +26,7 @@ yargs.command({
         }
     },
     handler(argv) {
-        let withdraw = new Transaction(argv.amount);
+        let withdraw = new Transaction(argv.amount , argv.selected);
         withdraw.update();
       
        // console.log(argv.amount, argv.selected)
