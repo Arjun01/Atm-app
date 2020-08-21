@@ -1,6 +1,9 @@
 const Atm = require("./atm");
 const loadTransactions = require('./actions/load');
 const saveTransaction = require('./actions/saveTransaction');
+const saveBalance = require('./actions/saveBalance');
+const getBalance = require('./actions/balance');
+const chalk = require('chalk');
 
 class Transaction extends Atm{
     constructor(amount, limit, denomination){
@@ -14,24 +17,49 @@ class Transaction extends Atm{
          this.date =mm + '/' + dd + '/' + yyyy;
     }
     update = ()=>{
-            console.log(`update function of transaction class ${this.amount}`);
-           var amount = this.amount;
-            const withdrawData = JSON.stringify(this.getMoney());
-            const transactions = loadTransactions();
-            this.id = transactions.length+1;
-           var data = JSON.stringify(withdrawData);
-            transactions.push({
-                id: this.id,
-                date: this.date,
-                details:{
-                    amount: amount,
-                    notesDispensed:withdrawData
+           const amount = this.amount;
+           const limit = this.limit;
+           if(amount <= limit){
+               const accountBalance = getBalance();
+               if(accountBalance.balance >= amount){
+                    const withdrawData = JSON.stringify(this.getMoney());
+                    const transactions = loadTransactions();
+                    this.id = transactions.length+1;
+                    // var data = JSON.stringify(withdrawData);
+                    transactions.push({
+                        id: this.id,
+                        date: this.date,
+                        details:{
+                            amount: amount,
+                            notesDispensed:withdrawData
+                        }
+                    });
+                    let updatedBalance = accountBalance.balance - amount;
+                     accountBalance.balance = updatedBalance;
+                    
+                    console.log(chalk.green(`Transaction successfull! `));
+                    console.log(chalk.yellow.inverse(`Transaction Id: ${this.id} `),chalk.magenta(`Dated: ${this.date}`));   
+                    console.log(chalk.green(`Amount withdrawn : ${amount}`));  
+                    console.log(chalk.cyan(`Notes Dispatched: `),chalk.cyan.inverse(`${withdrawData}`));
+                    saveTransaction(transactions);
+                   saveBalance(accountBalance);
+
+               }
+               else{    
+                     console.log(chalk.red(`You don't have enough balance left.Your current balance is Rs.${accountBalance.balance}/- only `));
+                    
                 }
-            });
-           
-            saveTransaction(transactions);
+
+               
+           }
+           else{
+               console.log(chalk.red(`Transaction limit exceeded! The limit of Atm is: Rs.${limit}/- only `));
+           }
+
             
     }
+    show=() => {
+          }
      getMoney = () => {
         if (this.denomination[0] < this.denomination[1]) this.denomination.reverse();
             let change = {};

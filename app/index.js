@@ -1,5 +1,5 @@
  const fs = require('fs');
- const balance = require('./actions/balance');
+ const printBalance = require('./actions/printBalance');
  const listTransactions = require('./actions/listTransactions');
  const reset = require('./actions/reset');
  const Transaction = require('./transaction');
@@ -64,7 +64,7 @@ yargs.command({
     command: 'balance',
     describe: 'Reads current balance',
     handler() {
-       balance();
+       printBalance();
     }
 })
 
